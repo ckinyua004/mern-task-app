@@ -1,11 +1,17 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const Task = require('./model/taskModel')
 const dotenv = require('dotenv').config()
+const taskRoutes = require("./routes/taskRoute")
 
 const app = express()
 
 const MONGO_URI = process.env.MONGO_URI 
 const PORT = process.env.PORT || 5000
+
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
+app.use("/api/tasks", taskRoutes)
 
 mongoose
     .connect(MONGO_URI, {})
@@ -24,7 +30,3 @@ mongoose
 app.get("/", (req, res) => {
     res.send("Home page. Welcome to the MERN Task Manager!")
 })
-
-// app.listen(PORT, () => {
-//     console.log(`Server is running on port ${ PORT }`)
-// })
