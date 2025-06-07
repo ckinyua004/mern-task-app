@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const Task = require('./model/taskModel')
 const dotenv = require('dotenv').config()
 const taskRoutes = require("./routes/taskRoute")
+const cors = require('cors')
 
 const app = express()
 
@@ -12,6 +13,11 @@ const PORT = process.env.PORT || 5000
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use("/api/tasks", taskRoutes)
+app.use(cors({
+    origin: "http://localhost:3000", // Adjust this to your frontend URL
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
+}))
 
 mongoose
     .connect(MONGO_URI, {})
